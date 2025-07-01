@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Turma Web - Inscrição</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-white text-gray-800">
+  <header class="bg-blue-600 text-white p-4 shadow-md">
+    <div class="container mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold">Turma Web</h1>
+      <nav>
+        <a href="#" class="px-4 hover:text-green-200">Inscreva-se</a>
+        <a href="admin.html" class="px-4 hover:text-green-200">Painel Docente</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container mx-auto p-6">
+    <section id="inscricao" class="bg-blue-50 p-6 rounded shadow-md max-w-xl mx-auto">
+      <h2 class="text-xl font-semibold mb-4 text-blue-700">Formulário de Inscrição</h2>
+      <form id="formInscricao" class="space-y-4">
+        <input type="text" name="nome" placeholder="Nome completo" required class="w-full px-4 py-2 border border-blue-300 rounded" />
+        <input type="email" name="email" placeholder="E-mail" required class="w-full px-4 py-2 border border-blue-300 rounded" />
+        <input type="number" name="idade" placeholder="Idade" required class="w-full px-4 py-2 border border-blue-300 rounded" />
+        <textarea name="avaliacao" placeholder="Como você se avalia?" required class="w-full px-4 py-2 border border-blue-300 rounded"></textarea>
+        <label class="block text-sm font-medium text-gray-700">Qual sua relação com a sala? (1 a 5 estrelas)</label>
+        <select name="relacao" required class="w-full px-4 py-2 border border-blue-300 rounded">
+          <option value="1">⭐</option>
+          <option value="2">⭐⭐</option>
+          <option value="3">⭐⭐⭐</option>
+          <option value="4">⭐⭐⭐⭐</option>
+          <option value="5">⭐⭐⭐⭐⭐</option>
+        </select>
+        <button type="submit" class="w-full bg-green-600 text-white font-semibold py-2 rounded hover:bg-green-700 transition">Inscrever-se</button>
+      </form>
+      <p id="msgSucesso" class="mt-4 text-green-600 hidden">Inscrição enviada com sucesso!</p>
+    </section>
+  </main>
+
+  <script>
+    const form = document.getElementById('formInscricao');
+    const msgSucesso = document.getElementById('msgSucesso');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(form));
+
+      const res = await fetch('/api/inscrever', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      if (res.ok) {
+        msgSucesso.classList.remove('hidden');
+        form.reset();
+      }
+    });
+  </script>
+</body>
+</html>
